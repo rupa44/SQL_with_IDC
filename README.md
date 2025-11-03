@@ -1,3 +1,3 @@
-🙌 Acknowledgement
-Thanks to @DPDzero and @indiandataclub for the amazing #SQLWithIDC challenge!
-#SQLWithIDC #LearnSQL #IndianDataClub
+Thanks to [@DPDzero](https://github.com/DPDzero) and [@indiandataclub](https://github.com/indiandataclub)
+for the amazing #SQLWithIDC challenge!
+
