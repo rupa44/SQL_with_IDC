@@ -7,11 +7,9 @@
 SELECT DISTINCT service FROM services_weekly;
 
 🧠 Explanation
-•	The UNION operator combines results from multiple tables and automatically removes duplicates.
-•	This query lists all unique hospital services across the four tables:
+  This query retrieves all **unique services** listed in the `services_weekly` table and lists all unique hospital services across the four tables:
 patients, services_weekly, staff, and staff_schedule.
 
 🙌 Acknowledgement
-•	Thanks to @DPDzero and @indiandataclub for the amazing #SQLWithIDC challenge!
-#SQLWithIDC #LearnSQL #IndianDataClub
-
+Thanks to [@DPDzero](https://github.com/DPDzero) and [@indiandataclub](https://github.com/indiandataclub)
+for the amazing #SQLWithIDC challenge!
