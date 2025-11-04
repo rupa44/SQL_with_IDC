@@ -1,0 +1,18 @@
+# 🌟 SQLWithIDC – Day 2 Challenge
+
+## 🧩 Question
+
+Find all patients admitted to 'Surgery' service with a satisfaction score below 70, showing their patient_id, name, age, and satisfaction score.
+
+## 💻 SQL Query
+
+SELECT patient_id, name, age, satisfaction FROM patients WHERE service = 'surgery'
+AND satisfaction < 70;
+
+🧠 **Explanation**
+This query selects all patients from the `patients` table who are admitted under the **'Surgery'** service and have a **satisfaction score less than 70**.
+It displays their **patient_id**, **name**, **age**, and **satisfaction** fields, helping identify patients with lower satisfaction levels in the Surgery department.
+
+🙌 **Acknowledgement**
+Thanks to [@DPDzero](https://github.com/DPDzero) and [@indiandataclub](https://github.com/indiandataclub)
+for the amazing #SQLWithIDC challenge!
