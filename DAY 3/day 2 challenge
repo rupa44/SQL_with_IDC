@@ -1,0 +1,31 @@
+# 🌟 SQLWithIDC – Day 3 Challenge
+
+## 🧩 Challenge Question
+
+Retrieve the top 5 weeks with the highest patient refusals across all services, showing **week**, **service**, **patients_refused**, and **patients_request**.
+Sort by **patients_refused** in descending order.
+
+## 💻 SQL Query
+SELECT week, service, patients_refused, patients_request FROM services_weekly ORDER BY patients_refused DESC LIMIT 5;
+
+🧠 **Explanation**
+This query retrieves the **top 5 records** from the `services_weekly` table where patient refusals are the highest.
+
+* `ORDER BY patients_refused DESC` sorts data by refusal count from high to low.
+* `LIMIT 5` restricts results to the top 5.
+* It helps identify which weeks and services faced maximum refusals.
+
+## 🧩 Practical Questions
+
+**1️⃣ List all patients sorted by age in descending order.**
+SELECT * FROM patients ORDER BY age DESC;
+
+**2️⃣ Show all services_weekly data sorted by week number ascending and patients_request descending.**
+SELECT * FROM services_weekly ORDER BY week ASC, patients_request DESC;
+
+**3️⃣ Display staff members sorted alphabetically by their names.**
+SELECT * FROM staff ORDER BY staff_name ASC;
+
+🙌 **Acknowledgement**
+Thanks to [@DPDzero](https://github.com/DPDzero) and [@indiandataclub](https://github.com/indiandataclub)
+for the amazing #SQLWithIDC challenge!
