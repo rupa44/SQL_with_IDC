@@ -1,0 +1,29 @@
+# 🌟 SQLWithIDC – Day 4 Challenge
+
+## 🧩 Challenge Question
+
+Find the **3rd to 7th highest patient satisfaction scores** from the `patients` table, showing **patient_id**, **name**, **service**, and **satisfaction**.
+Display only these 5 records.
+
+## 💻 SQL Query
+SELECT patient_id, name, service, satisfaction  FROM patients ORDER BY satisfaction DESC LIMIT 5 OFFSET 2;
+
+🧠 **Explanation**
+This query retrieves the **3rd to 7th highest satisfaction scores** from the `patients` table.
+* `ORDER BY satisfaction DESC` sorts patients by their satisfaction in descending order.
+* `OFFSET 2` skips the top 2 highest scores.
+* `LIMIT 5` then fetches the next 5 results (3rd–7th).
+
+## 🧩 Practical Questions
+**1️⃣ Display the first 5 patients from the patients table.**
+SELECT patient_id, name, service, satisfaction FROM patients LIMIT 5;
+
+**2️⃣ Show patients 11–20 from the patients table.**
+SELECT patient_id, name, service, satisfaction FROM patients LIMIT 10 OFFSET 10;
+
+**3️⃣ Get the 10 most recent patient admissions based on arrival_date.**
+SELECT patient_id, name, service, arrival_date FROM patients ORDER BY arrival_date DESC LIMIT 10;
+
+🙌 **Acknowledgement**
+Thanks to [@DPDzero](https://github.com/DPDzero) and [@indiandataclub](https://github.com/indiandataclub)
+for the amazing **#SQLWithIDC** challenge!
