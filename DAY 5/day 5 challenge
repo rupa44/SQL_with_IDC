@@ -1,0 +1,31 @@
+# 🌟 SQLWithIDC – Day 5 Challenge
+
+## 🧩 Challenge Question
+
+Calculate the **total number of patients admitted**, **total patients refused**, and the **average patient satisfaction** across all services and weeks.
+Round the average satisfaction to **2 decimal places**.
+
+## 💻 SQL Query
+SELECT SUM(patients_admitted) AS total_patients_admitted,SUM(patients_refused) AS total_patients_refused,ROUND(AVG(patient_satisfaction), 2) AS avg_patient_satisfaction
+FROM services_weekly;
+
+🧠 **Explanation**
+* `SUM(patients_admitted)` → Adds all admitted patients.
+* `SUM(patients_refused)` → Adds all refused patients.
+* `AVG(patient_satisfaction)` → Calculates the mean satisfaction across all weeks and services.
+* `ROUND(..., 2)` → Rounds the average to 2 decimal places.
+
+## 🧩 Practical Questions
+
+**1️⃣ Count the total number of patients in the hospital.**
+SELECT COUNT(*) AS total_patients FROM patients;
+
+**2️⃣ Calculate the average satisfaction score of all patients.**
+SELECT AVG(satisfaction) AS avg_satisfaction_score FROM patients;
+
+**3️⃣ Find the minimum and maximum age of patients.**
+SELECT MIN(age) AS min_age, MAX(age) AS max_age FROM patients;
+
+🙌 **Acknowledgement**
+Thanks to [@DPDzero](https://github.com/DPDzero) and [@indiandataclub](https://github.com/indiandataclub)
+for the amazing **#SQLWithIDC** challenge!
