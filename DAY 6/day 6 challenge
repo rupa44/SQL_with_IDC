@@ -1,0 +1,33 @@
+
+# 🌟 SQLWithIDC – Day 6 Challenge
+
+## 🧩 **Challenge Question**
+For each hospital service, calculate the total number of patients admitted, total patients refused, and the admission rate (percentage of requests that were admitted).
+Order by admission rate descending
+
+## 💻 **SQL Query**
+SELECT service, SUM(patients_admitted) AS Total_patients_admitted, SUM(patients_refused) AS Total_patients_refused, (SUM(patients_admitted) * 100 / SUM(patients_request)) 
+AS Admission_rate FROM services_weekly GROUP BY service ORDER BY Admission_rate DESC;
+
+🧠 **Explanation**
+* `SUM(patients_admitted)` → Calculates total admitted patients for each service.
+* `SUM(patients_refused)` → Calculates total refused patients.
+* `SUM(patients_request)` → Gives total requests for each service.
+* `(SUM(patients_admitted) * 100 / SUM(patients_request))` → Calculates **admission rate (%)**.
+* `ORDER BY Admission_rate DESC` → Sorts services by highest admission rate.
+
+##  **Practical Questions**
+
+**1️⃣ Count the number of patients by each service.**
+SELECT service, COUNT(*) AS total_patients FROM patients GROUP BY service;
+
+**2️⃣ Calculate the average age of patients grouped by service.**
+SELECT service, AVG(age) AS average_age FROM patients GROUP BY service ORDER BY service;
+
+**3️⃣ Find the total number of staff members per role.**
+SELECT role, COUNT(*) AS total_staff FROM staff GROUP BY role;
+
+🙌 **Acknowledgement**
+Thanks to [@DPDzero](https://github.com/DPDzero) and [@indiandataclub](https://github.com/indiandataclub)
+for the amazing **#SQLWithIDC** challenge!
+
