@@ -1,0 +1,32 @@
+
+# 🌟 SQLWithIDC – Day 8 Challenge
+
+## 🧩 **Challenge Question**
+Create a patient summary that shows patient_id, full name in uppercase, service in lowercase, age category
+(if age >= 65 then 'Senior', if age >= 18 then 'Adult', else 'Minor'), and name length. 
+Only show patients whose name length is greater than 10 characters.
+
+## 💻 **SQL Query**
+SELECT patient_id,UPPER(name) AS Full_Name,LOWER(service) AS Service_Name,CASE WHEN age >= 65 THEN 'Senior'WHEN age >= 18 THEN 'Adult'
+ELSE 'Minor'END AS Age_Category,LENGTH(name) AS Name_Length FROM patients WHERE LENGTH(name) > 10;
+
+🧠 **Explanation**
+* `UPPER(name)` → Converts each patient’s name to uppercase.
+* `LOWER(service)` → Converts the service name to lowercase.
+* `CASE` → Categorizes patients into **Senior**, **Adult**, or **Minor** based on age.
+* `LENGTH(name)` → Finds the number of characters in each name.
+* `WHERE LENGTH(name) > 10` → Filters only those with long names.
+
+## **Practical Questions**
+**1️⃣ Convert all patient names to uppercase.**
+SELECT patient_id,UPPER(name) AS Full_Name FROM patients;
+  
+**2️⃣ Find the length of each staff member's name.**
+SELECT staff_id,staff_name,LENGTH(staff_name) AS Name_Length FROM staff;
+
+**3️⃣ Concatenate staff_id and staff_name with a hyphen (-) separator.**
+SELECT staff_id,staff_name,CONCAT(staff_id, '-', staff_name) AS Staff_Details FROM staff;
+
+🙌 **Acknowledgement**
+Thanks to [@DPDzero](https://github.com/DPDzero) and [@indiandataclub](https://github.com/indiandataclub)
+for the amazing **#SQLWithIDC** challenge!
