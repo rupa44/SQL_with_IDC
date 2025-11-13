@@ -1,0 +1,38 @@
+## 🏥 DATASET STRUCTURE
+
+###  PATIENTS TABLE
+patient_id
+name
+age
+arrival_date
+departure_date
+service
+satisfaction
+
+###  SERVICES_WEEKLY TABLE
+week
+month
+service
+available_beds
+patients_request
+patients_admitted
+patients_refused
+patient_satisfaction
+staff_morale
+event
+
+### STAFF TABLE
+staff_id
+staff_name
+role
+service
+
+### STAFF_SCHEDULE TABLE
+week
+staff_id
+staff_name
+role
+service
+present
+
+
