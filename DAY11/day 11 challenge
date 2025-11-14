@@ -1,0 +1,33 @@
+# 🌟 SQLWithIDC – Day 11 Challenge
+
+## 🧩 **Challenge Question**
+Find all unique combinations of service and event type from the services_weekly table where events are not null or none,
+along with the count of occurrences for each combination. Order by count descending.
+
+## 💻 **SQL Query**
+SELECT service,event,COUNT(*) AS total_count FROM services_weekly
+WHERE event IS NOT NULL AND NOT (event = 'none') GROUP BY service, event
+ORDER BY total_count DESC;
+
+## 🧠 **Explanation**
+* `event IS NOT NULL` → Removes rows where event is missing.
+* `NOT (event = 'none')` → Excludes dummy/invalid event entries.
+* `COUNT(*)` → Counts how many times each service–event pair appears.
+* `GROUP BY service, event` → Groups results by both service and event to get unique combinations.
+* `ORDER BY total_count DESC` → Shows the most frequent combinations first.
+
+## **Practice Questions**
+**1️⃣ List all unique services in the patients table.**
+SELECT DISTINCT service FROM patients;
+
+**2️⃣ Find all unique staff roles in the hospital.**
+SELECT DISTINCT role FROM staff;
+
+**3️⃣ Get distinct months from the services_weekly table.**
+SELECT DISTINCT month FROM services_weekly ORDER BY month;
+
+
+🙌 **Acknowledgement**
+Thanks to [@DPDzero](https://github.com/DPDzero) and [@indiandataclub](https://github.com/indiandataclub)
+for the amazing **#SQLWithIDC** challenge series!
+
