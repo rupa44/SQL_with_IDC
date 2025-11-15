@@ -1,0 +1,37 @@
+# 🌟 SQLWithIDC – Day 12 Challenge
+
+## 🧩 **Challenge Question**
+Analyze the event impact by comparing weeks with events vs weeks without events.
+Show: event status ('With Event' or 'No Event'), count of weeks, average patient satisfaction, and average staff morale.
+Order by average patient satisfaction descending.
+  
+## 💻 **SQL Query**
+SELECT CASE WHEN event IS NULL OR event = 'none' THEN 'No Event' ELSE 'With Event'
+END AS event_status,
+COUNT(*) AS week_count,
+ROUND(AVG(patient_satisfaction), 2) AS avg_patient_satisfaction,
+ROUND(AVG(staff_morale), 2) AS avg_staff_morale
+FROM services_weekly GROUP BY event_status ORDER BY avg_patient_satisfaction DESC;
+
+## 🧠 **Explanation**
+* `CASE WHEN event IS NULL OR event = 'none'` → Categorizes rows without events.
+* `COUNT(*)` → Counts how many weeks fall under each event status.
+* `AVG(patient_satisfaction)` & `AVG(staff_morale)` → Measures impact on satisfaction and morale.
+* `GROUP BY event_status` → Groups data into “With Event” vs “No Event”.
+* `ORDER BY avg_patient_satisfaction DESC` → Shows which group performs better.
+
+## **Practice Questions**
+
+1️⃣ Find all weeks in services_weekly where no special event occurred.
+SELECT week FROM services_weekly WHERE event IS NULL OR event = '' OR event = 'none';
+
+2️⃣ Count how many records have null or empty event values.
+SELECT COUNT(*) AS no_event_count FROM services_weekly WHERE event IS NULL OR event = '';
+
+3️⃣ List all services that had at least one week with a special event.
+SELECT DISTINCT service FROM services_weekly WHERE event NOT IN ('none', '');
+
+🙌 **Acknowledgement**
+Thanks to [@DPDzero](https://github.com/DPDzero) and [@indiandataclub](https://github.com/indiandataclub)
+for the amazing **#SQLWithIDC** challenge series!
+
