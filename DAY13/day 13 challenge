@@ -1,0 +1,42 @@
+# 🌟 **SQLWithIDC – Day 13 Challenge**
+
+## 🧩 **Challenge Question**
+
+Create a comprehensive report showing patient_id, patient name, age, service, and the total number of staff members available in their service.
+Only include patients from services that have more than 5 staff members. Order by number of staff descending, then by patient name.
+
+## 💻 **SQL Query**
+SELECT p.patient_id,p.name AS patient_name,p.age,p.service,s.total_staff
+FROM patients p INNER JOIN (SELECT service, COUNT(*) AS total_staff FROM staff
+GROUP BY service HAVING COUNT(*) > 5) s ON p.service = s.service
+ORDER BY s.total_staff DESC,p.name;
+
+## 🧠 **Explanation**
+* `COUNT(*) AS total_staff` → Counts how many staff members work in each service.
+* `HAVING COUNT(*) > 5` → Filters only services with **more than 5 staff**.
+* Joining this back with `patients` → Shows only the patients belonging to those services.
+* `ORDER BY s.total_staff DESC, p.name` → First sorts by staff strength (highest first), then alphabetically by patient name.
+
+## **Practice Questions**
+
+### 1️⃣ Join patients and staff using the service field
+
+SELECT p.service,s.staff_name,p.name AS patient_name FROM patients p
+INNER JOIN staff s ON p.service = s.service ORDER BY p.service,s.staff_name;
+
+### 2️⃣ Join services_weekly with staff to display weekly data with staff details
+  
+SELECT sw.*,s.staff_id,s.staff_name,s.role
+FROM services_weekly sw INNER JOIN staff s ON sw.service = s.service
+ORDER BY sw.service, s.staff_name;
+
+### 3️⃣ Create a report showing patient information along with staff assigned to their service
+  
+SELECT p.service,p.patient_id,p.name AS patient_name,p.age,s.staff_name,s.role
+FROM patients p INNER JOIN staff s ON p.service = s.service
+ORDER BY p.service,p.patient_id,s.staff_name;
+
+
+## 🙌 **Acknowledgement**
+Thanks to **@DPDzero** and **@IndianDataClub** for inspiring another great day of **#SQLWithIDC** learning!
+
