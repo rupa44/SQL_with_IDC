@@ -185,5 +185,7 @@ WHERE p1.size < p2.size;
 
 ```
 ```
-## 🙌 Acknowledgement
-Thanks to **@DPDzero** and **@indiandataclub** for the amazing #SQLWithIDC challenge!
+## 🙌 **Acknowledgement**
+
+Thanks to [@DPDzero](https://github.com/DPDzero) and [@indiandataclub](https://github.com/indiandataclub)
+for the amazing #SQLWithIDC challenge!
