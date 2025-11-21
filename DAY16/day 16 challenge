@@ -16,7 +16,7 @@ GROUP BY sw.service HAVING AVG(sw.patient_satisfaction) < (SELECT AVG(patient_sa
 --1. Patients who are in services with above-average staff count
 SELECT p.patient_id, p.name, p.service FROM patients p WHERE p.service IN (
 SELECT service FROM staff GROUP BY service HAVING COUNT(*) > (SELECT AVG(staff_count)FROM (
-SELECT service, COUNT(*) AS staff_count FROM staff GROUP BY service) AS sc));*/
+SELECT service, COUNT(*) AS staff_count FROM staff GROUP BY service) AS sc));
 
 --2. Staff who work in services that had ANY week with patient satisfaction < 70
 SELECT s.staff_id, s.staff_name, s.service FROM staff s WHERE s.service IN (
