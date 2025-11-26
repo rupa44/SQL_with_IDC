@@ -1,0 +1,42 @@
+# 🌟 **SQLWithIDC – Day 20 Challenge**
+
+## 🧩 **Challenge Question**
+
+Create a trend analysis showing for each service and week: week number, patients_admitted, 
+running total of patients admitted (cumulative),3-week moving average of patient satisfaction
+(current week and 2 prior weeks), and the difference between current week admissions and the
+service average.Filter for weeks 10-20 only.
+
+  
+## 💻 **SQL Query**
+
+SELECT service, week,
+SUM(patients_admitted) OVER (PARTITION BY service ORDER BY week) AS Running_total_admitted,
+ROUND(AVG(patient_satisfaction) OVER (PARTITION BY service ORDER BY week 
+ROWS BETWEEN 2 PRECEDING AND CURRENT ROW),2) AS Moving_Avg_patient_satisfaction,
+patients_admitted AS Current_week_admission,
+ROUND(AVG(patients_admitted) OVER (PARTITION BY service),2) AS Service_avg_Admission,
+patients_admitted - ROUND(AVG(patients_admitted) OVER (PARTITION BY Service),2)AS Difference_From_service_avg
+FROM services_weekly
+WHERE Week BETWEEN 10 AND 20
+ORDER BY service, week;
+
+--Practice questions
+
+-- 1. Calculate running total of patients admitted by week for each service.
+SELECT service, week, patients_admitted,
+SUM(patients_admitted) OVER(PARTITION BY service ORDER BY week) AS running_total
+FROM services_weekly
+ORDER BY service, week;
+
+-- 2. Find the moving average of patient satisfaction over 4-week periods.
+SELECT week, patient_satisfaction, 
+AVG(patient_satisfaction) OVER(ORDER BY week ROWS BETWEEN 3 PRECEDING AND CURRENT ROW) AS moving_avg
+FROM services_weekly
+ORDER BY week;
+
+-- 3. Show cumulative patient refusals by week across all services.
+SELECT week, service, 
+SUM(patients_refused) OVER(ORDER BY week) AS cumulative_sum
+FROM services_weekly
+ORDER BY week, service;
