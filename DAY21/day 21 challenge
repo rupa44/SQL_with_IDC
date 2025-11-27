@@ -1,0 +1,71 @@
+# 🌟 **SQLWithIDC – Day 21 Challenge**
+
+## 🧩 **Challenge Question**
+  
+Create a comprehensive hospital performance dashboard using CTEs.Calculate: 1) Service-level metrics (total admissions,
+refusals, avg satisfaction),2) Staff metrics per service (total staff, avg weeks present),3) Patient demographics per
+service (avg age, count).Then combine all three CTEs to create a final report showing service name, all calculated metrics,
+and an overall performance score (weighted average of admission rate and satisfaction).Order by performance score descending.
+  
+## 💻 **SQL Query**
+  
+WITH service_stats AS (SELECT service,SUM(patients_admitted) AS total_admitted,SUM(patients_refused) AS total_refused,
+SUM(patients_request) AS total_requests,ROUND(AVG(patient_satisfaction), 2) AS avg_satisfaction,ROUND(
+CASE WHEN SUM(patients_request) = 0 THEN 0 ELSE SUM(patients_admitted) * 100.0 / SUM(patients_request)END, 2)
+AS admission_rate_pct FROM services_weekly GROUP BY service),staff_weeks AS (SELECT s.staff_id,s.service,
+COALESCE(COUNT(DISTINCT ss.week), 0) AS weeks_present FROM staff s LEFT JOIN staff_schedule ss 
+ON s.staff_id = ss.staff_id AND s.service = ss.service GROUP BY s.staff_id, s.service),
+staff_metrics AS (SELECT service,COUNT(DISTINCT staff_id) AS total_staff, ROUND(AVG(weeks_present), 2) AS avg_weeks_present
+FROM staff_weeks GROUP BY service),patient_demo AS (SELECT service,COUNT(*) AS patient_count,ROUND(AVG(age), 2) AS avg_age
+FROM patients GROUP BY service)SELECT ss.service,COALESCE(ss.total_admitted, 0) AS total_admitted,
+COALESCE(ss.total_refused, 0) AS total_refused,COALESCE(ss.total_requests, 0) AS total_requests,
+COALESCE(ss.admission_rate_pct, 0) AS admission_rate_pct,COALESCE(ss.avg_satisfaction, 0) AS avg_satisfaction,
+COALESCE(sm.total_staff, 0) AS total_staff,COALESCE(sm.avg_weeks_present, 0) AS avg_weeks_present,
+COALESCE(pd.patient_count, 0) AS patient_count,pd.avg_age,ROUND((COALESCE(ss.admission_rate_pct, 0) * 0.60)+
+(COALESCE(ss.avg_satisfaction, 0) * 0.40),2) AS performance_score FROM service_stats ss
+LEFT JOIN staff_metrics sm ON ss.service = sm.service LEFT JOIN patient_demo pd ON ss.service = pd.service
+ORDER BY performance_score DESC, ss.service;
+
+--Practice questions
+  
+-- 1. Create a CTE to calculate service statistics, then query from it.
+WITH service_stats AS (SELECT service,
+COUNT(*) AS total_patients,
+AVG(satisfaction) AS avg_satisfaction
+FROM patients
+GROUP BY service)
+SELECT *
+FROM service_stats;
+
+--2. Use multiple CTEs to break down a complex query into logical steps.
+WITH admissions AS (SELECT service,
+SUM(patients_admitted) AS total_admitted
+FROM services_weekly
+GROUP BY service
+),
+refusals AS (
+SELECT service,
+SUM(patients_refused) AS total_refused
+FROM services_weekly
+GROUP BY service
+),
+combined AS (
+SELECT a.service, a.total_admitted, r.total_refused,
+ROUND(
+100.0 * a.total_admitted / (a.total_admitted + r.total_refused),2) 
+AS admission_rate
+FROM admissions a
+JOIN refusals r ON a.service = r.service
+)
+SELECT *
+FROM combined;
+
+--3. Build a CTE for staff utilization and join it with patient data.
+WITH staff_utilization AS (
+SELECT
+service,
+COUNT(*) AS total_staff
+FROM staff
+GROUP BY service
+)
+SELECT * FROM staff_utilization;
