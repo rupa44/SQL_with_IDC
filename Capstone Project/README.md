@@ -1,0 +1,144 @@
+
+---
+
+# 🕵️ SQL Murder Mystery — Capstone Project
+
+### **“Who Killed the CEO?”**
+
+## 📌 Project Overview
+
+The CEO of **TechNova Inc.** was found dead in the **CEO Office** on **October 15, 2025 at 9:00 PM**.
+Your task as a **Data Analyst Detective** is to solve the murder **using SQL alone**.
+
+All clues lie inside:
+
+* employees
+* keycard_logs
+* calls
+* alibis
+* evidence
+
+Your goal is to identify:
+
+✔ Who killed the CEO
+✔ When & where it happened
+✔ How SQL proves it
+
+---
+
+# 🗂 Database Schema
+
+| Table Name       | Description                                                                     |
+| ---------------- | ------------------------------------------------------------------------------- |
+| **employees**    | Stores basic employee information such as ID, name, department, and role.       |
+| **keycard_logs** | Tracks employee movements by recording room entry and exit times.               |
+| **calls**        | Contains call records including caller, receiver, call time, and call duration. |
+| **alibis**       | Stores alibi statements including claimed location and timestamp.               |
+| **evidence**     | Contains details of physical evidence found at various locations.               |
+
+---
+
+# 🕵️‍♀️ Investigation Queries
+
+## **1. Identify where and when the crime happened**
+
+```sql
+SELECT room AS crime_scene,entry_time AS crime_time FROM keycard_logs WHERE room = 'CEO Office'
+AND entry_time <= '2025-10-15 21:00:00' AND exit_time >= '2025-10-15 21:00:00'LIMIT 1;
+```
+
+---
+
+## **2. Analyze who accessed critical areas at the time**
+
+```sql
+SELECT kl.employee_id,e.name,kl.log_id,kl.room,kl.entry_time,kl.exit_time
+FROM keycard_logs kl JOIN employees e ON kl.employee_id = e.employee_id WHERE kl.room = 'CEO Office'
+AND kl.entry_time <= '2025-10-15 21:00:00' AND kl.exit_time >= '2025-10-15 20:50:00'
+ORDER BY kl.entry_time;
+```
+
+---
+
+## **3. Cross-check alibis with actual logs**
+
+```sql
+SELECT a.alibi_id,a.employee_id,emp.name,a.claimed_location,a.claim_time,k.room AS actual_room,
+k.entry_time,k.exit_time,CASE WHEN k.room IS NULL THEN 'no_keycard_record'
+WHEN LOWER(TRIM(k.room)) = LOWER(TRIM(a.claimed_location)) THEN 'match'
+ELSE 'mismatch'END AS alibi_check FROM alibis a JOIN employees emp ON a.employee_id = emp.employee_id
+LEFT JOIN keycard_logs k ON a.employee_id = k.employee_id AND a.claim_time BETWEEN k.entry_time AND k.exit_time
+ORDER BY a.claim_time;
+```
+
+---
+
+## **4. Investigate suspicious calls made around the time**
+
+```sql
+SELECT c.call_id,c.caller_id,caller.name AS caller_name,c.receiver_id,receiver.name AS receiver_name,
+c.call_time,c.duration_sec FROM calls c LEFT JOIN employees caller ON c.caller_id = caller.employee_id
+LEFT JOIN employees receiver ON c.receiver_id = receiver.employee_id
+WHERE c.call_time BETWEEN '2025-10-15 20:50:00' AND '2025-10-15 21:00:00' ORDER BY c.call_time;
+```
+
+---
+
+## **5. Match evidence with movements and claims**
+
+```sql
+SELECT ev.evidence_id,ev.room AS evidence_room,ev.description,ev.found_time::TIME,k.room AS actual_location,
+k.entry_time::TIME,a.claimed_location,a.claim_time::TIME,e.name,CASE 
+WHEN a.claimed_location IS NULL THEN 'alibi not available'WHEN a.claimed_location = k.room THEN 'alibi match'
+ELSE 'alibi mismatch'END AS Alibi_status FROM evidence ev JOIN keycard_logs k ON ev.room = k.room JOIN
+employees e ON k.employee_id = e.employee_id LEFT JOIN alibis a ON e.employee_id = a.employee_id;
+```
+---
+
+## **6. Combine all findings to identify the killer**
+
+```sql
+SELECT e.employee_id,e.name,kl.room AS actual_location,kl.entry_time,kl.exit_time,a.claimed_location,a.claim_time,
+CASE WHEN a.claimed_location <> kl.room AND a.claim_time BETWEEN kl.entry_time AND kl.exit_time
+THEN 'Alibi FALSE – contradicts keycard log'ELSE 'Alibi TRUE'END AS alibi_verification,
+ev.room AS evidence_room,ev.description AS evidence_description,ev.found_time AS evidence_found_time
+FROM employees e LEFT JOIN keycard_logs kl ON e.employee_id = kl.employee_id
+LEFT JOIN alibis a ON e.employee_id = a.employee_id
+LEFT JOIN evidence ev ON kl.room = ev.room   -- evidence found in same location
+WHERE kl.entry_time BETWEEN '2025-10-15 20:30:00' AND '2025-10-15 21:30:00'ORDER BY e.name;
+```
+
+---
+
+## **Final “Case Solved” Query — The Killer Revealed**
+
+```sql
+WITH office_visitors AS (SELECT DISTINCT k.employee_id FROM keycard_logs k WHERE k.room ILIKE '%CEO%'
+AND k.entry_time <= '2025-10-15 21:00:00'AND k.exit_time  >= '2025-10-15 21:00:00'),
+alibi_mismatch AS (SELECT a.employee_id FROM alibis a LEFT JOIN keycard_logs k
+ON a.employee_id = k.employee_id AND a.claim_time BETWEEN k.entry_time AND k.exit_time
+WHERE k.room IS NULL OR LOWER(TRIM(k.room)) <> LOWER(TRIM(a.claimed_location))),
+call_activity AS (SELECT DISTINCT caller_id AS employee_id FROM calls
+WHERE call_time BETWEEN '2025-10-15 20:50:00' AND '2025-10-15 21:00:00'UNION
+SELECT DISTINCT receiver_id AS employee_id FROM calls WHERE call_time BETWEEN '2025-10-15 20:50:00' AND '2025-10-15 21:00:00')
+SELECT e.name AS killer FROM employees e
+JOIN office_visitors ov ON e.employee_id = ov.employee_id
+JOIN alibi_mismatch am ON e.employee_id = am.employee_id
+JOIN call_activity ca ON e.employee_id = ca.employee_id;
+
+```
+
+---
+
+# 🧩 Explanation
+
+* **David Kumar** entered the **CEO Office** during the crime window.
+* His alibi claimed he was in the **Server Room**, which did **not match keycard logs**.
+* He made **suspicious calls** right before the murder.
+* Evidence correlated with his movements and calls.
+
+👉 **Final Verdict: David Kumar is the killer.**
+
+---
+
+
