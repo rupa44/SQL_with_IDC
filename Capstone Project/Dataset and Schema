@@ -1,0 +1,75 @@
+# SQL Murder Mystery – Dataset and Schema
+
+## Download the Dataset File
+SQL_Murder_Mystery.sql
+
+Open the file on query tool and Run the entire script in PostgreSQL (PgAdmin) or MySQL Workbench.
+It will create all tables and insert the full dataset.
+
+# Database Schema
+The database contains five main tables used in the investigation.
+
+# TABLES
+## Table: employees
+Stores employee information.
+
+| Column      | Type    | Description                |
+| ----------- | ------- | -------------------------- |
+| employee_id | INT     | Unique employee ID         |
+| name        | VARCHAR | Full name of the employee  |
+| department  | VARCHAR | Department of the employee |
+| role        | VARCHAR | Employee role or job title |
+
+
+## Table: keycard_logs
+Tracks employee movements inside the office.
+
+| Column      | Type      | Description        |
+| ----------- | --------- | ------------------ |
+| log_id      | INT       | Log entry ID       |
+| employee_id | INT       | ID of the employee |
+| room        | VARCHAR   | Room accessed      |
+| entry_time  | TIMESTAMP | Time of entry      |
+| exit_time   | TIMESTAMP | Time of exit       |
+
+
+## Table: calls
+Contains phone call records between employees.
+
+| Column       | Type      | Description                 |
+| ------------ | --------- | --------------------------- |
+| call_id      | INT       | Call ID                     |
+| caller_id    | INT       | Caller employee ID          |
+| receiver_id  | INT       | Receiver employee ID        |
+| call_time    | TIMESTAMP | When the call took place    |
+| duration_sec | INT       | Duration of call in seconds |
+
+
+## Table: alibis
+Stores alibi claims made by employees.
+
+| Column           | Type      | Description                      |
+| ---------------- | --------- | -------------------------------- |
+| alibi_id         | INT       | Alibi record ID                  |
+| employee_id      | INT       | Employee who made the claim      |
+| claimed_location | VARCHAR   | Claimed location during the time |
+| claim_time       | TIMESTAMP | Time of the alibi claim          |
+
+
+## Table: evidence
+Contains physical evidence found at different locations.
+
+| Column      | Type      | Description                   |
+| ----------- | --------- | ----------------------------- |
+| evidence_id | INT       | Evidence ID                   |
+| room        | VARCHAR   | Room where evidence was found |
+| description | VARCHAR   | Description of the evidence   |
+| found_time  | TIMESTAMP | When the evidence was found   |
+
+
+# How to Use
+1. Download the SQL file.
+2. Open it in PgAdmin or MySQL Workbench.
+3. Run the entire script to create all tables and insert sample data.
+4. Use SQL queries to solve the mystery.
+
