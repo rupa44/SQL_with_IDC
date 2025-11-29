@@ -141,4 +141,8 @@ JOIN call_activity ca ON e.employee_id = ca.employee_id;
 
 ---
 
+## 🙌 **Acknowledgement**
+
+Thanks to [@DPDzero](https://github.com/DPDzero) and [@indiandataclub](https://github.com/indiandataclub)
+for the amazing #SQLWithIDC challenge!
 
